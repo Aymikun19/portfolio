@@ -14,7 +14,7 @@ const esc = (s: string) =>
 const shell = (inner: string) => `
 <div style="font-family:system-ui,-apple-system,Segoe UI,sans-serif;max-width:560px;margin:auto;padding:24px;color:#111">
   ${inner}
-  <p style="color:#888;font-size:12px;margin-top:32px">Sent from ${esc(process.env.NEXT_PUBLIC_SITE_URL || "my portfolio")}</p>
+  <p style="color:#888;font-size:12px;margin-top:32px">Sent from ${esc(process.env.NEXT_PUBLIC_SITE_URL || (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "my portfolio"))}</p>
 </div>`;
 
 type SendResult = { ok: true } | { ok: false; error: string };
@@ -28,7 +28,7 @@ async function send(opts: { to: string; subject: string; html: string; replyTo?:
 
 /** Notify the site owner about a new contact-form message. */
 export function notifyOwner(m: { name: string; email: string; subject: string; message: string }) {
-  const to = process.env.CONTACT_TO_EMAIL;
+  const to = process.env.CONTACT_TO_EMAIL || "ayomikunolopade19@gmail.com";
   if (!to) return Promise.resolve<SendResult>({ ok: false, error: "CONTACT_TO_EMAIL is not set" });
   return send({
     to,
@@ -59,7 +59,7 @@ export function acknowledgeVisitor(m: { name: string; email: string }) {
 export function replyToVisitor(opts: { to: string; name: string; subject: string; body: string }) {
   return send({
     to: opts.to,
-    replyTo: process.env.CONTACT_TO_EMAIL,
+    replyTo: process.env.CONTACT_TO_EMAIL || "ayomikunolopade19@gmail.com",
     subject: opts.subject.startsWith("Re:") ? opts.subject : `Re: ${opts.subject || "your message"}`,
     html: shell(`<p>Hi ${esc(opts.name)},</p><div style="white-space:pre-wrap">${esc(opts.body)}</div><p>Oreoluwa</p>`),
   });
