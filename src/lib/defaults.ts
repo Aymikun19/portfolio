@@ -1,6 +1,6 @@
 import type { SiteContent } from "./types";
 
-const GH = process.env.NEXT_PUBLIC_GITHUB_USERNAME || "oreoluwa-olopade";
+const GH = process.env.NEXT_PUBLIC_GITHUB_USERNAME || "Aymikun19";
 const repo = (name: string) => `https://github.com/${GH}/${name}`;
 
 // Seed content. Everything here can be edited from /admin once deployed.
