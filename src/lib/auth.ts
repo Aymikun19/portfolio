@@ -2,6 +2,7 @@ import "server-only";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { connection } from "next/server";
 import { createHash, timingSafeEqual } from "crypto";
 
 const COOKIE = "admin_session";
@@ -57,5 +58,6 @@ export async function isAdmin() {
 
 /** Call at the top of every admin page and Server Action. */
 export async function requireAdmin() {
+  await connection(); // admin pages always render per request, never at build time
   if (!(await isAdmin())) redirect("/admin/login");
 }

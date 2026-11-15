@@ -1,5 +1,5 @@
 import "server-only";
-import { get, put } from "@vercel/blob";
+import { BlobNotFoundError, get, put } from "@vercel/blob";
 import { cacheLife, cacheTag } from "next/cache";
 import { promises as fs } from "fs";
 import path from "path";
@@ -26,7 +26,13 @@ async function readDoc<T>(name: string, fallback: T): Promise<Doc<T>> {
       return { data: fallback };
     }
   }
-  const res = await get(name, { access: "private", useCache: false });
+  let res;
+  try {
+    res = await get(name, { access: "private", useCache: false });
+  } catch (err) {
+    if (err instanceof BlobNotFoundError) return { data: fallback };
+    throw err;
+  }
   if (!res || !res.stream) return { data: fallback };
   const text = await new Response(res.stream).text();
   return { data: JSON.parse(text) as T, etag: res.blob.etag ?? undefined };
@@ -90,5 +96,11 @@ export async function getPublicContent(): Promise<SiteContent> {
   "use cache";
   cacheTag("content");
   cacheLife("days");
-  return getContent();
+  try {
+    return await getContent();
+  } catch (err) {
+    // Never take the public site down because storage hiccuped; show the seed content instead.
+    console.error("getPublicContent failed, using defaults", err);
+    return defaultContent;
+  }
 }
