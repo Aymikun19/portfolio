@@ -1,26 +1,49 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #0b0d10;
+  --panel: #12151a;
+  --line: #222832;
+  --ink: #e8ecf1;
+  --muted: #8a94a3;
+  --accent: #6ee7b7;
+  --accent-2: #fbbf24;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Inter, sans-serif;
+  --font-mono: ui-monospace, "JetBrains Mono", "SFMono-Regular", Menlo, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+html { scroll-behavior: smooth; }
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--accent); color: #04130d; }
+
+@layer components {
+  .container-x { @apply mx-auto w-full max-w-5xl px-5 sm:px-8; }
+  .card { @apply rounded-2xl border border-line bg-panel; }
+  .eyebrow { @apply font-mono text-xs uppercase tracking-[0.2em] text-accent; }
+  .h2 { @apply mt-2 text-3xl font-semibold tracking-tight sm:text-4xl; }
+  .chip { @apply rounded-full border border-line px-3 py-1 font-mono text-xs text-muted; }
+  .btn-primary { @apply inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-[#04130d] transition hover:brightness-110 disabled:opacity-60; }
+  .btn-ghost { @apply inline-flex items-center gap-2 rounded-full border border-line px-5 py-2.5 text-sm font-medium transition hover:border-accent hover:text-accent; }
+  .btn-danger { @apply inline-flex items-center gap-2 rounded-full border border-rose-500/40 px-4 py-2 text-sm text-rose-300 transition hover:bg-rose-500/10; }
+  .field { @apply grid gap-1.5 text-sm; }
+  .field > span { @apply text-muted; }
+  .field input, .field textarea, .field select {
+    @apply w-full rounded-xl border border-line bg-bg px-3.5 py-2.5 text-ink outline-none transition focus:border-accent;
+  }
+  .link { @apply text-accent underline-offset-4 hover:underline; }
 }
