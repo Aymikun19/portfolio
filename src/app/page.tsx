@@ -156,10 +156,18 @@ function ProjectGrid({ title, projects }: { title: string; projects: Project[] }
         {projects.map((p) => (
           <article
             key={p.id}
-            className="card group flex flex-col p-6 transition hover:-translate-y-0.5 hover:border-accent/50"
+            className="card group relative flex flex-col p-6 transition hover:-translate-y-0.5 hover:border-accent/50"
           >
             <div className="flex items-start justify-between gap-3">
-              <h4 className="text-lg font-semibold">{p.title}</h4>
+              <h4 className="text-lg font-semibold">
+                {p.live ? (
+                  <a href={p.live} target="_blank" rel="noreferrer" className="after:absolute after:inset-0 hover:text-accent">
+                    {p.title}
+                  </a>
+                ) : (
+                  p.title
+                )}
+              </h4>
               {p.featured && (
                 <span className="rounded-full bg-accent-2/15 px-2 py-0.5 font-mono text-[10px] uppercase text-accent-2">
                   Featured
@@ -175,15 +183,14 @@ function ProjectGrid({ title, projects }: { title: string; projects: Project[] }
               ))}
             </div>
             <div className="mt-5 flex gap-4 text-sm">
-              {p.repo && (
-                <a href={p.repo} target="_blank" rel="noreferrer" className="link">
-                  Code ↗
-                </a>
-              )}
-              {p.live && (
-                <a href={p.live} target="_blank" rel="noreferrer" className="link">
-                  Live demo ↗
-                </a>
+              {p.live ? (
+                <span className="link">Visit live site ↗</span>
+              ) : (
+                p.repo && (
+                  <a href={p.repo} target="_blank" rel="noreferrer" className="link">
+                    View project ↗
+                  </a>
+                )
               )}
             </div>
           </article>
