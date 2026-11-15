@@ -1,3 +1,4 @@
+import { requireAdmin } from "@/lib/auth";
 import { getContent } from "@/lib/store";
 import type { Project } from "@/lib/types";
 import { deleteProject, saveProject } from "../../actions";
@@ -6,6 +7,7 @@ import { deleteProject, saveProject } from "../../actions";
 export const instant = false;
 
 export default async function ProjectsAdmin() {
+  await requireAdmin(); // pages render in parallel with the layout, so guard each one
   const { projects } = await getContent();
   return (
     <div>

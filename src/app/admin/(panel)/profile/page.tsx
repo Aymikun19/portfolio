@@ -1,3 +1,4 @@
+import { requireAdmin } from "@/lib/auth";
 import { getContent } from "@/lib/store";
 import type { Experience } from "@/lib/types";
 import { saveProfile } from "../../actions";
@@ -9,6 +10,7 @@ const timelineText = (items: Experience[]) =>
 export const instant = false;
 
 export default async function ProfileAdmin({ searchParams }: { searchParams: Promise<{ saved?: string }> }) {
+  await requireAdmin(); // pages render in parallel with the layout, so guard each one
   const { saved } = await searchParams;
   const { profile, skills, experience, leadership } = await getContent();
   const field = (name: keyof typeof profile, label: string, type = "text") => (

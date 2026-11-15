@@ -1,3 +1,4 @@
+import { requireAdmin } from "@/lib/auth";
 import { getMessages } from "@/lib/store";
 import { deleteMessage, toggleRead } from "../actions";
 import { ReplyForm } from "./ReplyForm";
@@ -6,6 +7,7 @@ import { ReplyForm } from "./ReplyForm";
 export const instant = false;
 
 export default async function Inbox() {
+  await requireAdmin(); // pages render in parallel with the layout, so guard each one
   const messages = await getMessages();
 
   return (
