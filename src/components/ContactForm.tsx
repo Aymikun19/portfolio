@@ -1,5 +1,7 @@
 "use client";
 
+import { CircleCheck, Send } from "lucide-react";
+
 import { useActionState } from "react";
 import { sendMessage, type ContactState } from "@/app/actions/contact";
 
@@ -11,7 +13,7 @@ export function ContactForm() {
   if (state.status === "ok") {
     return (
       <div className="card p-8 text-center">
-        <p className="text-2xl">✉️</p>
+        <CircleCheck size={36} className="mx-auto text-accent" aria-hidden />
         <p className="mt-2 font-medium">{state.message}</p>
       </div>
     );
@@ -41,7 +43,7 @@ export function ContactForm() {
       <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
       {state.status === "error" && <p className="text-sm text-rose-400">{state.message}</p>}
       <button className="btn-primary justify-self-start" disabled={pending}>
-        {pending ? "Sending…" : "Send message"}
+        <Send size={15} aria-hidden /> {pending ? "Sending…" : "Send message"}
       </button>
     </form>
   );

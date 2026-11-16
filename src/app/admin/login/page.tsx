@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { login } from "../actions";
 
 export default function LoginPage() {
@@ -10,6 +11,8 @@ export default function LoginPage() {
     <main className="grid min-h-screen place-items-center px-5">
       <form action={action} className="card grid w-full max-w-sm gap-4 p-8">
         <div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.svg" alt="" width={40} height={40} className="mb-4 h-10 w-10" />
           <p className="eyebrow">Admin</p>
           <h1 className="mt-2 text-2xl font-semibold">Sign in</h1>
         </div>
@@ -31,7 +34,7 @@ export default function LoginPage() {
               title={show ? "Hide password" : "Show password"}
               className="absolute inset-y-0 right-0 grid w-11 place-items-center text-muted transition hover:text-accent"
             >
-              {show ? <EyeOff /> : <Eye />}
+              {show ? <EyeOff size={18} aria-hidden /> : <Eye size={18} aria-hidden />}
             </button>
           </div>
         </label>
@@ -39,29 +42,11 @@ export default function LoginPage() {
         <button className="btn-primary justify-center" disabled={pending}>
           {pending ? "Checking…" : "Enter dashboard"}
         </button>
-        <a href="/" className="text-center text-sm text-muted hover:text-ink">
-          ← Back to site
+        <a href="/" className="inline-flex items-center justify-center gap-1 text-sm text-muted hover:text-ink">
+          <ArrowLeft size={14} aria-hidden /> Back to site
         </a>
       </form>
     </main>
   );
 }
 
-function Eye() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" />
-      <circle cx="12" cy="12" r="3" />
-    </svg>
-  );
-}
-
-function EyeOff() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M10.7 5.1A9.8 9.8 0 0 1 12 5c6.5 0 10 7 10 7a17.6 17.6 0 0 1-2.2 3.2M6.6 6.6C3.9 8.4 2 12 2 12s3.5 7 10 7a9.7 9.7 0 0 0 5.4-1.6" />
-      <path d="M9.9 9.9a3 3 0 0 0 4.2 4.2" />
-      <path d="m2 2 20 20" />
-    </svg>
-  );
-}

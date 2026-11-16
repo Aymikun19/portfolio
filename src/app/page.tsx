@@ -1,3 +1,5 @@
+import { ArrowRight, ArrowUpRight, Download, Mail, MapPin } from "lucide-react";
+import { GitHubIcon, LinkedInIcon } from "@/components/BrandIcons";
 import { getPublicContent } from "@/lib/store";
 import { ContactForm } from "@/components/ContactForm";
 import type { Experience, Project } from "@/lib/types";
@@ -10,13 +12,11 @@ const nav = [
 ];
 
 export default async function Home() {
-  const { profile, skills, experience, leadership, projects } = await getPublicContent();
-  const initials = profile.name
-    .split(" ")
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join("");
-  const ordered = [...projects].sort((a, b) => Number(b.featured) - Number(a.featured));
+  const { profile, skills, experience, leadership, projects } =
+    await getPublicContent();
+  const ordered = [...projects].sort(
+    (a, b) => Number(b.featured) - Number(a.featured),
+  );
   const fullstack = ordered.filter((p) => p.category === "fullstack");
   const data = ordered.filter((p) => p.category === "data");
 
@@ -24,11 +24,22 @@ export default async function Home() {
     <>
       <header className="sticky top-0 z-20 border-b border-line/60 bg-bg/80 backdrop-blur">
         <nav className="container-x flex h-16 items-center justify-between">
-          <a href="#top" className="flex items-center gap-2 font-mono text-sm">
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-accent font-sans font-bold text-[#04130d]">
-              {initials}
+          <a
+            href="#top"
+            className="flex items-center gap-2 font-mono text-sm"
+            aria-label={`${profile.name}, home`}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo.svg"
+              alt=""
+              width={32}
+              height={32}
+              className="h-8 w-8"
+            />
+            <span className="hidden sm:inline">
+              {profile.name.split(" ").slice(0, 2).join(" ")}
             </span>
-            <span className="hidden sm:inline">{profile.name.split(" ").slice(0, 2).join(" ")}</span>
           </a>
           <div className="flex gap-5 text-sm text-muted">
             {nav.map(([label, href]) => (
@@ -52,30 +63,48 @@ export default async function Home() {
           <p className="mt-6 max-w-2xl text-lg text-muted">{profile.tagline}</p>
           <div className="mt-10 flex flex-wrap gap-3">
             <a href="#projects" className="btn-primary">
-              See my work →
+              See my work <ArrowRight size={16} aria-hidden />
             </a>
             <a href="#contact" className="btn-ghost">
               Get in touch
             </a>
             {profile.resumeUrl && (
-              <a href={profile.resumeUrl} className="btn-ghost" target="_blank" rel="noreferrer">
-                Download CV
+              <a
+                href={profile.resumeUrl}
+                className="btn-ghost"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Download size={16} aria-hidden /> Download CV
               </a>
             )}
           </div>
           <div className="mt-10 flex gap-5 font-mono text-sm text-muted">
             {profile.github && (
-              <a className="hover:text-accent" href={profile.github} target="_blank" rel="noreferrer">
-                GitHub ↗
+              <a
+                className="inline-flex items-center gap-1.5 hover:text-accent"
+                href={profile.github}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <GitHubIcon size={15} /> GitHub
               </a>
             )}
             {profile.linkedin && (
-              <a className="hover:text-accent" href={profile.linkedin} target="_blank" rel="noreferrer">
-                LinkedIn ↗
+              <a
+                className="inline-flex items-center gap-1.5 hover:text-accent"
+                href={profile.linkedin}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <LinkedInIcon size={15} /> LinkedIn
               </a>
             )}
-            <a className="hover:text-accent" href={`mailto:${profile.email}`}>
-              Email ↗
+            <a
+              className="inline-flex items-center gap-1.5 hover:text-accent"
+              href={`mailto:${profile.email}`}
+            >
+              <Mail size={15} aria-hidden /> Email
             </a>
           </div>
         </section>
@@ -86,13 +115,19 @@ export default async function Home() {
           <div className="mt-2 grid gap-10 md:grid-cols-[1.3fr_1fr]">
             <div>
               <h2 className="h2">Builder first, student always.</h2>
-              <p className="mt-5 leading-relaxed text-muted whitespace-pre-line">{profile.about}</p>
-              <p className="mt-4 text-sm text-muted">📍 {profile.location}</p>
+              <p className="mt-5 leading-relaxed text-muted whitespace-pre-line">
+                {profile.about}
+              </p>
+              <p className="mt-4 inline-flex items-center gap-1.5 text-sm text-muted">
+                <MapPin size={15} aria-hidden /> {profile.location}
+              </p>
             </div>
             <div className="grid gap-4">
               {skills.map((s) => (
                 <div key={s.group} className="card p-5">
-                  <p className="font-mono text-xs uppercase tracking-widest text-accent-2">{s.group}</p>
+                  <p className="font-mono text-xs uppercase tracking-widest text-accent-2">
+                    {s.group}
+                  </p>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {s.items.map((i) => (
                       <span key={i} className="chip text-ink">
@@ -129,7 +164,8 @@ export default async function Home() {
           <p className="eyebrow">Contact</p>
           <h2 className="h2">Let&apos;s build something.</h2>
           <p className="mt-4 max-w-xl text-muted">
-            Have a role, a project or a question? Send a message and it lands straight in my inbox.
+            Have a role, a project or a question? Send a message and it lands
+            straight in my inbox.
           </p>
           <div className="mt-8 max-w-2xl">
             <ContactForm />
@@ -147,11 +183,33 @@ export default async function Home() {
   );
 }
 
-function ProjectGrid({ title, projects }: { title: string; projects: Project[] }) {
+// Logos for the built-in projects (public/projects/<id>.svg). Projects added from /admin show without one.
+const PROJECT_LOGOS = new Set([
+  "siwes-logbook",
+  "event-checkin",
+  "naira-split",
+  "campus-market",
+  "study-rooms",
+  "snip-links",
+  "job-tracker",
+  "churn-predictor",
+  "music-store-sql",
+  "movie-recs",
+]);
+
+function ProjectGrid({
+  title,
+  projects,
+}: {
+  title: string;
+  projects: Project[];
+}) {
   if (!projects.length) return null;
   return (
     <div className="mt-10">
-      <h3 className="font-mono text-sm uppercase tracking-widest text-muted">{title}</h3>
+      <h3 className="font-mono text-sm uppercase tracking-widest text-muted">
+        {title}
+      </h3>
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
         {projects.map((p) => (
           <article
@@ -159,22 +217,41 @@ function ProjectGrid({ title, projects }: { title: string; projects: Project[] }
             className="card group relative flex flex-col p-6 transition hover:-translate-y-0.5 hover:border-accent/50"
           >
             <div className="flex items-start justify-between gap-3">
-              <h4 className="text-lg font-semibold">
-                {p.live ? (
-                  <a href={p.live} target="_blank" rel="noreferrer" className="after:absolute after:inset-0 hover:text-accent">
-                    {p.title}
-                  </a>
-                ) : (
-                  p.title
+              <div className="flex items-center gap-3">
+                {PROJECT_LOGOS.has(p.id) && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={`/projects/${p.id}.svg`}
+                    alt=""
+                    width={36}
+                    height={36}
+                    className="h-9 w-9 shrink-0"
+                  />
                 )}
-              </h4>
+                <h4 className="text-lg font-semibold">
+                  {p.live ? (
+                    <a
+                      href={p.live}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="after:absolute after:inset-0 hover:text-accent"
+                    >
+                      {p.title}
+                    </a>
+                  ) : (
+                    p.title
+                  )}
+                </h4>
+              </div>
               {p.featured && (
                 <span className="rounded-full bg-accent-2/15 px-2 py-0.5 font-mono text-[10px] uppercase text-accent-2">
                   Featured
                 </span>
               )}
             </div>
-            <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">{p.description}</p>
+            <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">
+              {p.description}
+            </p>
             <div className="mt-4 flex flex-wrap gap-1.5">
               {p.tech.map((t) => (
                 <span key={t} className="chip">
@@ -184,11 +261,18 @@ function ProjectGrid({ title, projects }: { title: string; projects: Project[] }
             </div>
             <div className="mt-5 flex gap-4 text-sm">
               {p.live ? (
-                <span className="link">Visit live site ↗</span>
+                <span className="link inline-flex items-center gap-1">
+                  Visit live site <ArrowUpRight size={15} aria-hidden />
+                </span>
               ) : (
                 p.repo && (
-                  <a href={p.repo} target="_blank" rel="noreferrer" className="link">
-                    View project ↗
+                  <a
+                    href={p.repo}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="link inline-flex items-center gap-1"
+                  >
+                    View project <ArrowUpRight size={15} aria-hidden />
                   </a>
                 )
               )}
@@ -203,7 +287,9 @@ function ProjectGrid({ title, projects }: { title: string; projects: Project[] }
 function Timeline({ title, items }: { title: string; items: Experience[] }) {
   return (
     <div>
-      <h3 className="font-mono text-sm uppercase tracking-widest text-muted">{title}</h3>
+      <h3 className="font-mono text-sm uppercase tracking-widest text-muted">
+        {title}
+      </h3>
       <ol className="mt-5 grid gap-6 border-l border-line pl-6">
         {items.map((e, i) => (
           <li key={i} className="relative">

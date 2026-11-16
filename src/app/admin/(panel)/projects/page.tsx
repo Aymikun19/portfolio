@@ -1,3 +1,4 @@
+import { ChevronDown, Plus } from "lucide-react";
 import { requireAdmin } from "@/lib/auth";
 import { getContent } from "@/lib/store";
 import type { Project } from "@/lib/types";
@@ -15,7 +16,9 @@ export default async function ProjectsAdmin() {
       <p className="mt-1 text-sm text-muted">Edit what shows on your portfolio. Changes go live immediately.</p>
 
       <details className="card mt-8 p-5">
-        <summary className="cursor-pointer font-medium text-accent">+ Add a project</summary>
+        <summary className="inline-flex cursor-pointer items-center gap-1.5 font-medium text-accent">
+          <Plus size={16} aria-hidden /> Add a project
+        </summary>
         <ProjectForm />
       </details>
 
@@ -30,7 +33,9 @@ export default async function ProjectsAdmin() {
                   {p.featured ? " · featured" : ""}
                 </span>
               </span>
-              <span className="text-sm text-muted">edit ▾</span>
+              <span className="inline-flex items-center gap-1 text-sm text-muted">
+                edit <ChevronDown size={14} aria-hidden />
+              </span>
             </summary>
             <ProjectForm project={p} />
             <form action={deleteProject.bind(null, p.id)} className="mt-3">

@@ -1,3 +1,4 @@
+import { ArrowUpRight, LogOut } from "lucide-react";
 import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import { getMessages } from "@/lib/store";
@@ -17,6 +18,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <header className="border-b border-line">
         <div className="container-x flex h-16 items-center justify-between">
           <div className="flex items-center gap-6 text-sm">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.svg" alt="" width={24} height={24} className="h-6 w-6" />
             <span className="font-mono text-accent">admin</span>
             <Link href="/admin" className="text-muted hover:text-ink">
               Inbox{unread > 0 && <span className="ml-1.5 rounded-full bg-accent px-1.5 text-xs text-[#04130d]">{unread}</span>}
@@ -29,11 +32,13 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             </Link>
           </div>
           <div className="flex items-center gap-3">
-            <a href="/" target="_blank" className="text-sm text-muted hover:text-ink">
-              View site ↗
+            <a href="/" target="_blank" className="inline-flex items-center gap-1 text-sm text-muted hover:text-ink">
+              View site <ArrowUpRight size={14} aria-hidden />
             </a>
             <form action={logout}>
-              <button className="btn-ghost !py-1.5 !px-3.5">Log out</button>
+              <button className="btn-ghost !py-1.5 !px-3.5">
+                <LogOut size={14} aria-hidden /> Log out
+              </button>
             </form>
           </div>
         </div>

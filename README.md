@@ -1,3 +1,5 @@
+<img src="public/logo.svg" alt="" width="64" height="64">
+
 # Portfolio: Olopade Oreoluwa
 
 Personal portfolio with a password-protected admin dashboard, built with **Next.js 16 (App Router)**, **Tailwind CSS v4**, **Vercel Blob** for storage and **Resend** for email.
