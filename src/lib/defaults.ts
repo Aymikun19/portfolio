@@ -145,7 +145,7 @@ export const defaultContent: SiteContent = {
       tech: ["Python", "pandas", "scikit-learn", "Streamlit"],
       category: "data",
       repo: repo("churn-predictor"),
-      live: "",
+      live: "https://oreoluwa-churn-predictor.streamlit.app",
       featured: true,
     },
     {
@@ -156,7 +156,7 @@ export const defaultContent: SiteContent = {
       tech: ["SQL", "Window functions", "Python", "pandas"],
       category: "data",
       repo: repo("music-store-sql-analytics"),
-      live: "",
+      live: "https://oreoluwa-sql-analytics.streamlit.app",
       featured: false,
     },
     {
@@ -167,7 +167,7 @@ export const defaultContent: SiteContent = {
       tech: ["Python", "NumPy", "Recommender systems", "Streamlit"],
       category: "data",
       repo: repo("movie-recommender"),
-      live: "",
+      live: "https://oreoluwa-movie-recommender.streamlit.app",
       featured: false,
     },
   ],
