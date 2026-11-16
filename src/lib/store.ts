@@ -75,7 +75,11 @@ const MESSAGES = "messages.json";
 
 export async function getContent(): Promise<SiteContent> {
   const { data } = await readDoc<SiteContent>(CONTENT, defaultContent);
-  return { ...defaultContent, ...data };
+  const merged = { ...defaultContent, ...data };
+  // Fill in live links added to the defaults after content was first saved from /admin.
+  const defaultsById = new Map(defaultContent.projects.map((p) => [p.id, p]));
+  merged.projects = merged.projects.map((p) => (p.live ? p : { ...p, live: defaultsById.get(p.id)?.live ?? "" }));
+  return merged;
 }
 
 export function updateContent(fn: (c: SiteContent) => SiteContent) {

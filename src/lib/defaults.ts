@@ -68,7 +68,7 @@ export const defaultContent: SiteContent = {
       tech: ["Next.js", "Supabase", "Row Level Security", "Tailwind"],
       category: "fullstack",
       repo: repo("siwes-logbook"),
-      live: "",
+      live: "https://siwes-logbook-taupe.vercel.app",
       featured: true,
     },
     {
@@ -79,7 +79,7 @@ export const defaultContent: SiteContent = {
       tech: ["Next.js", "Supabase", "Resend", "QR codes"],
       category: "fullstack",
       repo: repo("eventpass"),
-      live: "",
+      live: "https://eventpass-beige-nine.vercel.app",
       featured: true,
     },
     {
@@ -90,7 +90,7 @@ export const defaultContent: SiteContent = {
       tech: ["Next.js", "Supabase", "TypeScript", "Vitest"],
       category: "fullstack",
       repo: repo("naira-split"),
-      live: "",
+      live: "https://naira-split.vercel.app",
       featured: true,
     },
     {
@@ -101,7 +101,7 @@ export const defaultContent: SiteContent = {
       tech: ["Next.js", "Supabase Storage", "Postgres full-text search"],
       category: "fullstack",
       repo: repo("campus-mart"),
-      live: "",
+      live: "https://campus-mart-red.vercel.app",
       featured: false,
     },
     {
@@ -112,7 +112,7 @@ export const defaultContent: SiteContent = {
       tech: ["Next.js", "Supabase Realtime", "Presence"],
       category: "fullstack",
       repo: repo("study-rooms"),
-      live: "",
+      live: "https://study-rooms-eight.vercel.app",
       featured: false,
     },
     {
@@ -123,7 +123,7 @@ export const defaultContent: SiteContent = {
       tech: ["Next.js", "Supabase", "Recharts"],
       category: "fullstack",
       repo: repo("snip-links"),
-      live: "",
+      live: "https://snip-links-five.vercel.app",
       featured: false,
     },
     {
@@ -134,7 +134,7 @@ export const defaultContent: SiteContent = {
       tech: ["Next.js", "Supabase", "dnd-kit"],
       category: "fullstack",
       repo: repo("huntboard"),
-      live: "",
+      live: "https://huntboard-khaki.vercel.app",
       featured: false,
     },
     {
