@@ -2,6 +2,7 @@
 
 import { useActionState, useState } from "react";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
+import Link from "next/link";
 import { login } from "../actions";
 
 export default function LoginPage() {
@@ -42,9 +43,9 @@ export default function LoginPage() {
         <button className="btn-primary justify-center" disabled={pending}>
           {pending ? "Checking…" : "Enter dashboard"}
         </button>
-        <a href="/" className="inline-flex items-center justify-center gap-1 text-sm text-muted hover:text-ink">
+        <Link href="/" className="inline-flex items-center justify-center gap-1 text-sm text-muted hover:text-ink">
           <ArrowLeft size={14} aria-hidden /> Back to site
-        </a>
+        </Link>
       </form>
     </main>
   );

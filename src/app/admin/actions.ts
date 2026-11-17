@@ -99,6 +99,7 @@ export async function saveProject(form: FormData) {
     repo: String(form.get("repo") || ""),
     live: String(form.get("live") || ""),
     featured: form.get("featured") === "on",
+    highlights: String(form.get("highlights") || "").split("\n").map((l) => l.trim()).filter(Boolean),
   };
   await updateContent((c) => {
     const current = c.projects.find((p) => p.id === id);

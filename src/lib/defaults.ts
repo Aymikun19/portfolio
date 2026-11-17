@@ -98,6 +98,7 @@ export const defaultContent: SiteContent = {
       live: "https://elections.runacos.com",
       image: "/projects/shots/runacos-elections.webp",
       featured: true,
+      highlights: ["Two sign-in paths: fresh students verify with their name and matric or JAMB number; continuing students get a one-time code at their school email.", "One secret ballot per verified voter.", "An organiser console to run the election.", "Used for the association's first-ever digital elections, for the 2026/27 executive council."],
     },
     {
       id: "cghds-website",
@@ -110,6 +111,7 @@ export const defaultContent: SiteContent = {
       live: "https://cghds-nine.vercel.app",
       image: "/projects/shots/cghds-website.webp",
       featured: true,
+      highlights: ["Programmes, events, staff directory, gallery and publications for the Centre for Gender, Humanitarian & Development Studies.", "Admin portal so the centre's staff can update content themselves.", "Light and dark themes with a responsive, editorial design.", "Built and maintained with the centre's four-person technical team."],
     },
     {
       id: "siwes-logbook",
@@ -121,6 +123,7 @@ export const defaultContent: SiteContent = {
       repo: repo("siwes-logbook"),
       live: "https://siwes-logbook-taupe.vercel.app",
       featured: true,
+      highlights: ["Students log daily activities, hours and skills; entries group into weeks automatically.", "Supervisors approve weeks or request changes, enforced with Postgres row-level security.", "Progress dashboard: hours per week, an activity heatmap, logging streak and a skills summary.", "Edit entries, export to CSV, or print a school-ready logbook."],
     },
     {
       id: "event-checkin",
@@ -132,6 +135,7 @@ export const defaultContent: SiteContent = {
       repo: repo("eventpass"),
       live: "https://eventpass-beige-nine.vercel.app",
       featured: true,
+      highlights: ["Public registration pages with capacity limits enforced in a Postgres function.", "QR tickets emailed through Resend, scanned at the door from any phone camera.", "Live dashboard with check-in rate, arrivals timeline and a searchable guest list with manual check-in.", "Share kit with a downloadable QR code, attendee CSV export and add-to-calendar files."],
     },
     {
       id: "naira-split",
@@ -143,6 +147,7 @@ export const defaultContent: SiteContent = {
       repo: repo("naira-split"),
       live: "https://naira-split.vercel.app",
       featured: true,
+      highlights: ["Money stored in integer kobo, so splits are exact.", "Split equally, by exact amounts or by percentages, with live validation.", "Greedy settle-up algorithm that clears every debt in at most n-1 transfers, covered by unit tests.", "Balance chart, spending insights, invite links and CSV export."],
     },
     {
       id: "campus-market",
@@ -154,6 +159,7 @@ export const defaultContent: SiteContent = {
       repo: repo("campus-mart"),
       live: "https://campus-mart-red.vercel.app",
       featured: false,
+      highlights: ["Listings with photo upload to Supabase Storage, scoped per user by storage policies.", "Weighted Postgres full-text search with category, condition and price filters, sorting and pagination.", "Seller dashboard with stats, editing, mark-as-sold and delete.", "Listing pages with WhatsApp contact, share button, similar items and more from the seller."],
     },
     {
       id: "study-rooms",
@@ -165,6 +171,7 @@ export const defaultContent: SiteContent = {
       repo: repo("study-rooms"),
       live: "https://study-rooms-eight.vercel.app",
       featured: false,
+      highlights: ["Shared Pomodoro timer derived from a server start time, so every client agrees.", "Live chat, presence and typing indicators over one Supabase Realtime channel.", "Progress ring, sound and browser notifications when a phase ends.", "Per-device focus stats and invite links."],
     },
     {
       id: "snip-links",
@@ -176,6 +183,7 @@ export const defaultContent: SiteContent = {
       repo: repo("snip-links"),
       live: "https://snip-links-five.vercel.app",
       featured: false,
+      highlights: ["Custom or generated slugs with reserved-word protection.", "Click tracking in a security-definer Postgres function, with bot and link-preview detection.", "Per-link analytics (daily clicks, referrers, devices, countries) and an all-links overview with sparklines.", "QR codes as PNG and SVG, editable destinations and CSV export of raw clicks."],
     },
     {
       id: "job-tracker",
@@ -187,6 +195,7 @@ export const defaultContent: SiteContent = {
       repo: repo("huntboard"),
       live: "https://huntboard-khaki.vercel.app",
       featured: false,
+      highlights: ["Drag-and-drop kanban with optimistic updates (dnd-kit).", "Follow-up reminders with done and snooze actions.", "Insights page: cumulative funnel with stage conversions, applications per week, top companies.", "Search, filters, a details drawer and CSV import and export."],
     },
     {
       id: "churn-predictor",
@@ -199,6 +208,7 @@ export const defaultContent: SiteContent = {
       live: "https://oreoluwa-churn-predictor.streamlit.app",
       image: "/projects/shots/churn-predictor.webp",
       featured: true,
+      highlights: ["Compared three models with stratified cross-validation; logistic regression reached a test ROC-AUC of 0.845.", "Decision threshold tuned on out-of-fold predictions, not the test set.", "Exact per-customer explanations: each feature's contribution to the log-odds, verified by a unit test.", "What-if analysis, batch CSV scoring with revenue at risk, and a model performance tab."],
     },
     {
       id: "music-store-sql",
@@ -211,6 +221,7 @@ export const defaultContent: SiteContent = {
       live: "https://oreoluwa-sql-analytics.streamlit.app",
       image: "/projects/shots/music-store-sql.webp",
       featured: false,
+      highlights: ["Seven business questions answered with CTEs, window functions and cohort queries.", "RFM segmentation and genre Pareto analysis, with results reconciled by tests.", "Interactive dashboard of revenue, genres, countries, segments and retention.", "A read-only SQL playground hardened with SQLite read-only mode, an authorizer and a query time limit."],
     },
     {
       id: "movie-recs",
@@ -223,6 +234,7 @@ export const defaultContent: SiteContent = {
       live: "https://oreoluwa-movie-recommender.streamlit.app",
       image: "/projects/shots/movie-recs.webp",
       featured: false,
+      highlights: ["ALS matrix factorisation written from scratch in NumPy.", "Evaluated on users' future ratings, showing that low RMSE does not mean good top-10 lists.", "Trending-aware hybrid that beats every baseline on recall@10.", "Explained recommendations, genre and year filters, similar-movie search and a taste profile."],
     },
   ],
 };

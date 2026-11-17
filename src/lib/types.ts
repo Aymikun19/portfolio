@@ -33,6 +33,8 @@ export type Project = {
   /** Screenshot: a /public path, a stored media key ("media/…"), or "". */
   image?: string;
   featured: boolean;
+  /** Bullet points for the case-study page. */
+  highlights?: string[];
 };
 
 export type SiteContent = {

@@ -1,9 +1,10 @@
-import { ArrowRight, ArrowUpRight, Download, Mail, MapPin } from "lucide-react";
+import { ArrowRight, Download, Mail, MapPin } from "lucide-react";
 import { GitHubIcon, LinkedInIcon } from "@/components/BrandIcons";
 import { mediaUrl } from "@/lib/media";
 import { getPublicContent } from "@/lib/store";
 import { ContactForm } from "@/components/ContactForm";
-import type { Experience, Project } from "@/lib/types";
+import type { Experience } from "@/lib/types";
+import { ProjectExplorer } from "@/components/ProjectExplorer";
 
 const nav = [
   ["About", "#about"],
@@ -19,11 +20,26 @@ export default async function Home() {
   const ordered = [...projects].sort(
     (a, b) => Number(b.featured) - Number(a.featured),
   );
-  const fullstack = ordered.filter((p) => p.category === "fullstack");
-  const data = ordered.filter((p) => p.category === "data");
+  const stats = [
+    [String(projects.length), "projects shipped"],
+    [String(projects.filter((p) => p.live).length), "live apps"],
+    [String(new Set(projects.flatMap((p) => p.tech)).size), "technologies used"],
+    [String(experience.length + leadership.length), "roles held"],
+  ];
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: profile.name,
+    jobTitle: profile.title,
+    email: `mailto:${profile.email}`,
+    address: { "@type": "PostalAddress", addressCountry: profile.location },
+    sameAs: [profile.github, profile.linkedin].filter(Boolean),
+    knowsAbout: skills.flatMap((g) => g.items),
+  };
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       <header className="sticky top-0 z-20 border-b border-line/60 bg-bg/80 backdrop-blur">
         <nav className="container-x flex h-16 items-center justify-between">
           <a
@@ -136,6 +152,17 @@ export default async function Home() {
         </section>
 
         {/* About + skills */}
+        <section aria-label="At a glance" className="container-x">
+          <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-4">
+            {stats.map(([n, label]) => (
+              <div key={label} className="bg-panel px-6 py-5">
+                <dt className="font-mono text-[11px] uppercase tracking-widest text-muted">{label}</dt>
+                <dd className="mt-1 text-3xl font-semibold tracking-tight">{n}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
         <section id="about" className="container-x scroll-mt-20 py-16">
           <p className="eyebrow">About</p>
           <div className="mt-2 grid gap-10 md:grid-cols-[1.3fr_1fr]">
@@ -171,8 +198,7 @@ export default async function Home() {
         <section id="projects" className="container-x scroll-mt-20 py-16">
           <p className="eyebrow">Projects</p>
           <h2 className="h2">Things I&apos;ve built</h2>
-          <ProjectGrid title="Full-stack apps" projects={fullstack} />
-          <ProjectGrid title="Data & machine learning" projects={data} />
+          <ProjectExplorer projects={ordered} />
         </section>
 
         {/* Experience */}
@@ -206,124 +232,6 @@ export default async function Home() {
         </div>
       </footer>
     </>
-  );
-}
-
-// Logos for the built-in projects (public/projects/<id>.svg). Projects added from /admin show without one.
-const PROJECT_LOGOS = new Set([
-  "runacos-elections",
-  "cghds-website",
-  "siwes-logbook",
-  "event-checkin",
-  "naira-split",
-  "campus-market",
-  "study-rooms",
-  "snip-links",
-  "job-tracker",
-  "churn-predictor",
-  "music-store-sql",
-  "movie-recs",
-]);
-
-function ProjectGrid({
-  title,
-  projects,
-}: {
-  title: string;
-  projects: Project[];
-}) {
-  if (!projects.length) return null;
-  return (
-    <div className="mt-10">
-      <h3 className="font-mono text-sm uppercase tracking-widest text-muted">
-        {title}
-      </h3>
-      <div className="mt-4 grid gap-4 sm:grid-cols-2">
-        {projects.map((p) => (
-          <article
-            key={p.id}
-            className="card group relative flex flex-col overflow-hidden transition hover:-translate-y-0.5 hover:border-accent/50"
-          >
-            {p.image && (
-              <div className="aspect-[16/10] overflow-hidden border-b border-line bg-bg">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={mediaUrl(p.image)}
-                  alt={`Screenshot of ${p.title}`}
-                  loading="lazy"
-                  width={1280}
-                  height={800}
-                  className="h-full w-full object-cover object-top transition duration-500 group-hover:scale-[1.03]"
-                />
-              </div>
-            )}
-            <div className="flex flex-1 flex-col p-6">
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  {PROJECT_LOGOS.has(p.id) && (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={`/projects/${p.id}.svg`}
-                      alt=""
-                      width={36}
-                      height={36}
-                      className="h-9 w-9 shrink-0"
-                    />
-                  )}
-                  <h4 className="text-lg font-semibold">
-                    {p.live ? (
-                      <a
-                        href={p.live}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="after:absolute after:inset-0 hover:text-accent"
-                      >
-                        {p.title}
-                      </a>
-                    ) : (
-                      p.title
-                    )}
-                  </h4>
-                </div>
-                {p.featured && (
-                  <span className="rounded-full bg-accent-2/15 px-2 py-0.5 font-mono text-[10px] uppercase text-accent-2">
-                    Featured
-                  </span>
-                )}
-              </div>
-              <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">
-                {p.description}
-              </p>
-              <div className="mt-4 flex flex-wrap gap-1.5">
-                {p.tech.map((t) => (
-                  <span key={t} className="chip">
-                    {t}
-                  </span>
-                ))}
-              </div>
-              <div className="mt-5 flex gap-4 text-sm">
-                {p.live ? (
-                  <span className="link inline-flex items-center gap-1">
-                    Visit live site <ArrowUpRight size={15} aria-hidden />
-                  </span>
-                ) : (
-                  p.repo && (
-                    <a
-                      href={p.repo}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="link inline-flex items-center gap-1"
-                    >
-                      View project <ArrowUpRight size={15} aria-hidden />
-                    </a>
-                  )
-                )}
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
   );
 }
 

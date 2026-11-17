@@ -73,6 +73,10 @@ function ProjectForm({ project }: { project?: Project }) {
         <textarea name="description" rows={3} defaultValue={project?.description} />
       </label>
       <label className="field">
+        <span>Highlights for the case-study page (one per line)</span>
+        <textarea name="highlights" rows={4} defaultValue={project?.highlights?.join("\n")} />
+      </label>
+      <label className="field">
         <span>Tech (comma separated)</span>
         <input name="tech" defaultValue={project?.tech.join(", ")} />
       </label>

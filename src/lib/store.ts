@@ -110,6 +110,7 @@ export async function getContent(): Promise<SiteContent> {
     // An explicit "" means the image was removed in /admin; undefined means "use the default".
     live: p.live || defaultsById.get(p.id)?.live || "",
     image: p.image ?? defaultsById.get(p.id)?.image ?? "",
+    highlights: p.highlights ?? defaultsById.get(p.id)?.highlights ?? [],
   }));
   merged.profile = { ...defaultContent.profile, ...merged.profile, photo: merged.profile.photo ?? defaultContent.profile.photo };
   return merged;
