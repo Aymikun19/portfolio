@@ -146,6 +146,7 @@ export const defaultContent: SiteContent = {
       category: "data",
       repo: repo("churn-predictor"),
       live: "https://oreoluwa-churn-predictor.streamlit.app",
+      image: "/projects/shots/churn-predictor.webp",
       featured: true,
     },
     {
@@ -157,6 +158,7 @@ export const defaultContent: SiteContent = {
       category: "data",
       repo: repo("music-store-sql-analytics"),
       live: "https://oreoluwa-sql-analytics.streamlit.app",
+      image: "/projects/shots/music-store-sql.webp",
       featured: false,
     },
     {
@@ -168,6 +170,7 @@ export const defaultContent: SiteContent = {
       category: "data",
       repo: repo("movie-recommender"),
       live: "https://oreoluwa-movie-recommender.streamlit.app",
+      image: "/projects/shots/movie-recs.webp",
       featured: false,
     },
   ],

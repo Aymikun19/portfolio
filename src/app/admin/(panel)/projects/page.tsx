@@ -1,3 +1,5 @@
+import { ImageInput } from "../ImageInput";
+import { mediaUrl } from "@/lib/media";
 import { ChevronDown, Plus } from "lucide-react";
 import { requireAdmin } from "@/lib/auth";
 import { getContent } from "@/lib/store";
@@ -65,6 +67,7 @@ function ProjectForm({ project }: { project?: Project }) {
           </select>
         </label>
       </div>
+      <ImageInput name="image" label="Screenshot" current={mediaUrl(project?.image)} />
       <label className="field">
         <span>Description</span>
         <textarea name="description" rows={3} defaultValue={project?.description} />

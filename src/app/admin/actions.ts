@@ -3,7 +3,7 @@
 import { revalidatePath, updateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { createSession, destroySession, passwordMatches, requireAdmin } from "@/lib/auth";
-import { updateContent, updateMessages } from "@/lib/store";
+import { saveImage, updateContent, updateMessages } from "@/lib/store";
 import { replyToVisitor } from "@/lib/email";
 import type { Experience, Project, SkillGroup } from "@/lib/types";
 
@@ -78,9 +78,18 @@ const list = (v: FormDataEntryValue | null) =>
     .map((s) => s.trim())
     .filter(Boolean);
 
+/** Returns the new image key, "" to remove, or undefined to keep the current one. */
+async function imageFromForm(form: FormData, field: string, prefix: string): Promise<string | undefined> {
+  if (form.get(`${field}_remove`) === "on") return "";
+  const file = form.get(field);
+  if (file instanceof File && file.size > 0) return saveImage(file, prefix);
+  return undefined;
+}
+
 export async function saveProject(form: FormData) {
   await requireAdmin();
   const id = String(form.get("id") || "") || crypto.randomUUID().slice(0, 8);
+  const image = await imageFromForm(form, "image", `project-${id}`);
   const project: Project = {
     id,
     title: String(form.get("title") || "Untitled"),
@@ -92,10 +101,11 @@ export async function saveProject(form: FormData) {
     featured: form.get("featured") === "on",
   };
   await updateContent((c) => {
-    const exists = c.projects.some((p) => p.id === id);
+    const current = c.projects.find((p) => p.id === id);
+    const next = { ...project, image: image ?? current?.image };
     return {
       ...c,
-      projects: exists ? c.projects.map((p) => (p.id === id ? project : p)) : [...c.projects, project],
+      projects: current ? c.projects.map((p) => (p.id === id ? next : p)) : [...c.projects, next],
     };
   });
   updateTag("content");
@@ -141,6 +151,7 @@ function parseTimeline(text: string): Experience[] {
 export async function saveProfile(form: FormData) {
   await requireAdmin();
   const s = (k: string) => String(form.get(k) || "").trim();
+  const photo = await imageFromForm(form, "photo", "profile");
   await updateContent((c) => ({
     ...c,
     profile: {
@@ -154,6 +165,7 @@ export async function saveProfile(form: FormData) {
       linkedin: s("linkedin"),
       resumeUrl: s("resumeUrl"),
       availability: s("availability"),
+      photo: photo ?? c.profile.photo,
     },
     skills: parseSkills(s("skills")),
     experience: parseTimeline(s("experience")),

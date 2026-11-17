@@ -9,6 +9,8 @@ export type Profile = {
   linkedin: string;
   resumeUrl: string;
   availability: string;
+  /** Profile photo: a /public path, a stored media key ("media/…"), or "" for none. */
+  photo?: string;
 };
 
 export type SkillGroup = { group: string; items: string[] };
@@ -28,6 +30,8 @@ export type Project = {
   category: "fullstack" | "data";
   repo: string;
   live: string;
+  /** Screenshot: a /public path, a stored media key ("media/…"), or "". */
+  image?: string;
   featured: boolean;
 };
 

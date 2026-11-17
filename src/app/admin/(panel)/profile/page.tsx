@@ -1,3 +1,5 @@
+import { ImageInput } from "../ImageInput";
+import { mediaUrl } from "@/lib/media";
 import { requireAdmin } from "@/lib/auth";
 import { getContent } from "@/lib/store";
 import type { Experience } from "@/lib/types";
@@ -28,6 +30,7 @@ export default async function ProfileAdmin({ searchParams }: { searchParams: Pro
       <form action={saveProfile} className="mt-8 grid gap-6">
         <section className="card grid gap-4 p-6">
           <h2 className="font-medium">Basics</h2>
+          <ImageInput name="photo" label="Profile photo" current={mediaUrl(profile.photo)} shape="round" />
           <div className="grid gap-4 sm:grid-cols-2">
             {field("name", "Full name")}
             {field("title", "Title")}

@@ -1,5 +1,6 @@
 import { ArrowRight, ArrowUpRight, Download, Mail, MapPin } from "lucide-react";
 import { GitHubIcon, LinkedInIcon } from "@/components/BrandIcons";
+import { mediaUrl } from "@/lib/media";
 import { getPublicContent } from "@/lib/store";
 import { ContactForm } from "@/components/ContactForm";
 import type { Experience, Project } from "@/lib/types";
@@ -14,6 +15,7 @@ const nav = [
 export default async function Home() {
   const { profile, skills, experience, leadership, projects } =
     await getPublicContent();
+  const photo = mediaUrl(profile.photo);
   const ordered = [...projects].sort(
     (a, b) => Number(b.featured) - Number(a.featured),
   );
@@ -55,57 +57,81 @@ export default async function Home() {
         {/* Hero */}
         <section className="container-x relative py-24 sm:py-32">
           <div className="pointer-events-none absolute -top-10 right-0 h-72 w-72 rounded-full bg-accent/10 blur-3xl" />
-          <p className="eyebrow">{profile.availability}</p>
-          <h1 className="mt-4 max-w-3xl text-4xl font-semibold leading-[1.1] tracking-tight sm:text-6xl">
-            Hi, I&apos;m {profile.name.split(" ")[1] ?? profile.name}.{" "}
-            <span className="text-muted">{profile.title}.</span>
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg text-muted">{profile.tagline}</p>
-          <div className="mt-10 flex flex-wrap gap-3">
-            <a href="#projects" className="btn-primary">
-              See my work <ArrowRight size={16} aria-hidden />
-            </a>
-            <a href="#contact" className="btn-ghost">
-              Get in touch
-            </a>
-            {profile.resumeUrl && (
-              <a
-                href={profile.resumeUrl}
-                className="btn-ghost"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Download size={16} aria-hidden /> Download CV
-              </a>
+          <div className="flex flex-col-reverse gap-10 md:flex-row md:items-center md:justify-between">
+            <div className="min-w-0">
+              <p className="eyebrow">{profile.availability}</p>
+              <h1 className="mt-4 max-w-3xl text-4xl font-semibold leading-[1.1] tracking-tight text-balance sm:text-5xl lg:text-6xl">
+                Hi, I&apos;m {profile.name.split(" ")[1] ?? profile.name}.{" "}
+                <span className="text-muted">
+              {profile.title.replace(/-/g, "\u2011")}.
+            </span>
+              </h1>
+              <p className="mt-6 max-w-2xl text-lg text-muted">
+                {profile.tagline}
+              </p>
+              <div className="mt-10 flex flex-wrap gap-3">
+                <a href="#projects" className="btn-primary">
+                  See my work <ArrowRight size={16} aria-hidden />
+                </a>
+                <a href="#contact" className="btn-ghost">
+                  Get in touch
+                </a>
+                {profile.resumeUrl && (
+                  <a
+                    href={profile.resumeUrl}
+                    className="btn-ghost"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <Download size={16} aria-hidden /> Download CV
+                  </a>
+                )}
+              </div>
+              <div className="mt-10 flex gap-5 font-mono text-sm text-muted">
+                {profile.github && (
+                  <a
+                    className="inline-flex items-center gap-1.5 hover:text-accent"
+                    href={profile.github}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <GitHubIcon size={15} /> GitHub
+                  </a>
+                )}
+                {profile.linkedin && (
+                  <a
+                    className="inline-flex items-center gap-1.5 hover:text-accent"
+                    href={profile.linkedin}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <LinkedInIcon size={15} /> LinkedIn
+                  </a>
+                )}
+                <a
+                  className="inline-flex items-center gap-1.5 hover:text-accent"
+                  href={`mailto:${profile.email}`}
+                >
+                  <Mail size={15} aria-hidden /> Email
+                </a>
+              </div>
+            </div>
+            {photo && (
+              <div className="relative shrink-0 self-start md:self-center">
+                <div
+                  className="absolute -inset-2 rounded-full bg-gradient-to-br from-accent/40 to-transparent blur-md"
+                  aria-hidden
+                />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={photo}
+                  alt={`Portrait of ${profile.name}`}
+                  width={288}
+                  height={288}
+                  className="relative h-36 w-36 rounded-full border-2 border-accent/60 object-cover sm:h-52 sm:w-52 md:h-72 md:w-72"
+                />
+              </div>
             )}
-          </div>
-          <div className="mt-10 flex gap-5 font-mono text-sm text-muted">
-            {profile.github && (
-              <a
-                className="inline-flex items-center gap-1.5 hover:text-accent"
-                href={profile.github}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <GitHubIcon size={15} /> GitHub
-              </a>
-            )}
-            {profile.linkedin && (
-              <a
-                className="inline-flex items-center gap-1.5 hover:text-accent"
-                href={profile.linkedin}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <LinkedInIcon size={15} /> LinkedIn
-              </a>
-            )}
-            <a
-              className="inline-flex items-center gap-1.5 hover:text-accent"
-              href={`mailto:${profile.email}`}
-            >
-              <Mail size={15} aria-hidden /> Email
-            </a>
           </div>
         </section>
 
@@ -214,68 +240,83 @@ function ProjectGrid({
         {projects.map((p) => (
           <article
             key={p.id}
-            className="card group relative flex flex-col p-6 transition hover:-translate-y-0.5 hover:border-accent/50"
+            className="card group relative flex flex-col overflow-hidden transition hover:-translate-y-0.5 hover:border-accent/50"
           >
-            <div className="flex items-start justify-between gap-3">
-              <div className="flex items-center gap-3">
-                {PROJECT_LOGOS.has(p.id) && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={`/projects/${p.id}.svg`}
-                    alt=""
-                    width={36}
-                    height={36}
-                    className="h-9 w-9 shrink-0"
-                  />
+            {p.image && (
+              <div className="aspect-[16/10] overflow-hidden border-b border-line bg-bg">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={mediaUrl(p.image)}
+                  alt={`Screenshot of ${p.title}`}
+                  loading="lazy"
+                  width={1280}
+                  height={800}
+                  className="h-full w-full object-cover object-top transition duration-500 group-hover:scale-[1.03]"
+                />
+              </div>
+            )}
+            <div className="flex flex-1 flex-col p-6">
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  {PROJECT_LOGOS.has(p.id) && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={`/projects/${p.id}.svg`}
+                      alt=""
+                      width={36}
+                      height={36}
+                      className="h-9 w-9 shrink-0"
+                    />
+                  )}
+                  <h4 className="text-lg font-semibold">
+                    {p.live ? (
+                      <a
+                        href={p.live}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="after:absolute after:inset-0 hover:text-accent"
+                      >
+                        {p.title}
+                      </a>
+                    ) : (
+                      p.title
+                    )}
+                  </h4>
+                </div>
+                {p.featured && (
+                  <span className="rounded-full bg-accent-2/15 px-2 py-0.5 font-mono text-[10px] uppercase text-accent-2">
+                    Featured
+                  </span>
                 )}
-                <h4 className="text-lg font-semibold">
-                  {p.live ? (
+              </div>
+              <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">
+                {p.description}
+              </p>
+              <div className="mt-4 flex flex-wrap gap-1.5">
+                {p.tech.map((t) => (
+                  <span key={t} className="chip">
+                    {t}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-5 flex gap-4 text-sm">
+                {p.live ? (
+                  <span className="link inline-flex items-center gap-1">
+                    Visit live site <ArrowUpRight size={15} aria-hidden />
+                  </span>
+                ) : (
+                  p.repo && (
                     <a
-                      href={p.live}
+                      href={p.repo}
                       target="_blank"
                       rel="noreferrer"
-                      className="after:absolute after:inset-0 hover:text-accent"
+                      className="link inline-flex items-center gap-1"
                     >
-                      {p.title}
+                      View project <ArrowUpRight size={15} aria-hidden />
                     </a>
-                  ) : (
-                    p.title
-                  )}
-                </h4>
+                  )
+                )}
               </div>
-              {p.featured && (
-                <span className="rounded-full bg-accent-2/15 px-2 py-0.5 font-mono text-[10px] uppercase text-accent-2">
-                  Featured
-                </span>
-              )}
-            </div>
-            <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">
-              {p.description}
-            </p>
-            <div className="mt-4 flex flex-wrap gap-1.5">
-              {p.tech.map((t) => (
-                <span key={t} className="chip">
-                  {t}
-                </span>
-              ))}
-            </div>
-            <div className="mt-5 flex gap-4 text-sm">
-              {p.live ? (
-                <span className="link inline-flex items-center gap-1">
-                  Visit live site <ArrowUpRight size={15} aria-hidden />
-                </span>
-              ) : (
-                p.repo && (
-                  <a
-                    href={p.repo}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="link inline-flex items-center gap-1"
-                  >
-                    View project <ArrowUpRight size={15} aria-hidden />
-                  </a>
-                )
-              )}
             </div>
           </article>
         ))}
