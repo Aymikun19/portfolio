@@ -211,6 +211,8 @@ export default async function Home() {
 
 // Logos for the built-in projects (public/projects/<id>.svg). Projects added from /admin show without one.
 const PROJECT_LOGOS = new Set([
+  "runacos-elections",
+  "cghds-website",
   "siwes-logbook",
   "event-checkin",
   "naira-split",

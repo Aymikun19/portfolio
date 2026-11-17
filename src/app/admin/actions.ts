@@ -114,7 +114,11 @@ export async function saveProject(form: FormData) {
 
 export async function deleteProject(id: string) {
   await requireAdmin();
-  await updateContent((c) => ({ ...c, projects: c.projects.filter((p) => p.id !== id) }));
+  await updateContent((c) => ({
+    ...c,
+    projects: c.projects.filter((p) => p.id !== id),
+    hiddenProjects: [...new Set([...(c.hiddenProjects ?? []), id])],
+  }));
   updateTag("content");
   revalidatePath("/admin/projects");
 }

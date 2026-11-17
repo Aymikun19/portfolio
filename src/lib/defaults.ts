@@ -4,19 +4,23 @@ const GH = process.env.NEXT_PUBLIC_GITHUB_USERNAME || "Aymikun19";
 const repo = (name: string) => `https://github.com/${GH}/${name}`;
 
 // Seed content. Everything here can be edited from /admin once deployed.
+export const SEED_VERSION = 2;
+
 export const defaultContent: SiteContent = {
+  seedVersion: SEED_VERSION,
   profile: {
     name: "Olopade Oreoluwa Daniel",
     title: "Full-Stack Developer · Data & AI",
     tagline:
       "I build fast, data-driven web apps with Next.js and Supabase, and I'm digging deep into data science.",
     about:
-      "I'm a Computer Science undergraduate who ships real products. I build client websites at Lightiverse, completed a four-month AI internship at CodeAlpha, and lead technical bootcamps as Technical Lead of the AWS Student Builder Group. I like owning a feature end to end: the interface, the database, the auth and the deploy. Lately I've been spending a lot of time on big-data tooling like Spark, and on making recommendation systems fairer.",
+      "I'm a Computer Science undergraduate at Redeemer's University who ships real products. I'm on the technical team at CGHDS, I build client websites at Lightiverse, and I built my faculty association's first-ever digital elections. I completed a four-month AI internship at CodeAlpha and lead hands-on bootcamps as Technical Lead of the AWS Student Builder Group. I like owning a feature end to end: the interface, the database, the auth and the deploy. Lately I've been going deep on big-data tooling like Spark and on making recommendation systems fairer.",
     location: "Nigeria",
     email: "ayomikunolopade19@gmail.com",
     github: `https://github.com/${GH}`,
     linkedin: "",
     resumeUrl: "",
+    photo: "/me.webp",
     availability: "Open to internships (SIWES), contract and remote roles",
   },
   skills: [
@@ -26,6 +30,14 @@ export const defaultContent: SiteContent = {
     { group: "Tools", items: ["Git & GitHub", "Vercel", "Resend"] },
   ],
   experience: [
+    {
+      role: "Technical Team Member",
+      org: "CGHDS, Redeemer's University",
+      period: "Jan 2026 – Present",
+      points: [
+        "Part of the technical team that built and maintains the centre's website (cghds-nine.vercel.app).",
+      ],
+    },
     {
       role: "Web Developer",
       org: "Lightiverse",
@@ -41,25 +53,64 @@ export const defaultContent: SiteContent = {
   ],
   leadership: [
     {
+      role: "SRC Member, Prophet Moses Hall constituency",
+      org: "Students' Representative Council, Redeemer's University",
+      period: "Nov 2026 – Present",
+      points: ["Represent the residents of Prophet Moses Hall in the Students' Representative Council."],
+    },
+    {
+      role: "Honourable Member",
+      org: "RUNSA Legislative Council, Redeemer's University",
+      period: "Present",
+      points: ["Serve as a member of the students' union legislative arm."],
+    },
+    {
       role: "Technical Lead & Bootcamp Director",
       org: "AWS Student Builder Group",
       period: "Aug 2026 – Present",
       points: ["Plan and run hands-on bootcamps and builder events such as “Launchpad: Build with AWS”."],
     },
     {
-      role: "Co-founder & Vice-President",
-      org: "Tech Academia (NACOS RUN)",
-      period: "Mar 2026",
-      points: ["Co-founded a student tech club focused on practical, project-based learning."],
-    },
-    {
       role: "ICT Director",
       org: "NACOS RUN",
-      period: "Until 2026",
-      points: ["Led the association's ICT activities and digital presence."],
+      period: "Oct 2025 – Oct 2026",
+      points: [
+        "Led the association's ICT activities and digital presence.",
+        "Built and ran the association's first-ever digital elections (elections.runacos.com) for the 2026/27 executive council.",
+      ],
+    },
+    {
+      role: "Co-founder & Vice-President",
+      org: "Tech Academia (NACOS RUN)",
+      period: "Mar 2026 – Oct 2026",
+      points: ["Co-founded a student tech club focused on practical, project-based learning."],
     },
   ],
   projects: [
+    {
+      id: "runacos-elections",
+      title: "NACOS RUN Digital Elections",
+      description:
+        "The first-ever digital elections for my faculty's student association (RUNACOS), used to elect the 2026/27 executive council. Fresh students sign in with their matric or JAMB number, continuing students verify with a one-time code sent to their school email, and organisers run the election from an admin console.",
+      tech: ["Next.js", "Vercel"],
+      category: "fullstack",
+      repo: repo("runacos-vote"),
+      live: "https://elections.runacos.com",
+      image: "/projects/shots/runacos-elections.webp",
+      featured: true,
+    },
+    {
+      id: "cghds-website",
+      title: "CGHDS Website",
+      description:
+        "The official website of the Centre for Gender, Humanitarian & Development Studies at Redeemer's University, built by the centre's four-person technical team, which I joined in January 2026. Covers programmes, events, staff, a gallery, publications and an admin portal, with light and dark themes.",
+      tech: ["Next.js", "Vercel"],
+      category: "fullstack",
+      repo: "",
+      live: "https://cghds-nine.vercel.app",
+      image: "/projects/shots/cghds-website.webp",
+      featured: true,
+    },
     {
       id: "siwes-logbook",
       title: "SIWES Logbook",

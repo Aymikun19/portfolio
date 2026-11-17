@@ -36,6 +36,10 @@ export type Project = {
 };
 
 export type SiteContent = {
+  /** Version of the seed content this document has been migrated to. */
+  seedVersion?: number;
+  /** Ids of built-in projects deleted from /admin, so migrations don't bring them back. */
+  hiddenProjects?: string[];
   profile: Profile;
   skills: SkillGroup[];
   experience: Experience[];

@@ -3,8 +3,8 @@ import { BlobNotFoundError, get, put } from "@vercel/blob";
 import { cacheLife, cacheTag } from "next/cache";
 import { promises as fs } from "fs";
 import path from "path";
-import { defaultContent } from "./defaults";
-import type { Message, SiteContent } from "./types";
+import { defaultContent, SEED_VERSION } from "./defaults";
+import type { Experience, Message, SiteContent } from "./types";
 
 /**
  * Tiny JSON document store.
@@ -73,9 +73,36 @@ async function update<T>(name: string, fallback: T, fn: (current: T) => T): Prom
 const CONTENT = "content.json";
 const MESSAGES = "messages.json";
 
+/**
+ * Bring content saved from /admin up to the latest seed: add new built-in projects and roles
+ * without overwriting anything the owner edited.
+ */
+const OLD_SEED_PERIODS = new Set(["Until 2026", "Mar 2026"]);
+function migrate(c: SiteContent): SiteContent {
+  if ((c.seedVersion ?? 1) >= SEED_VERSION) return c;
+  const hidden = new Set(c.hiddenProjects ?? []);
+  const have = new Set(c.projects.map((p) => p.id));
+  const newProjects = defaultContent.projects.filter((p) => !have.has(p.id) && !hidden.has(p.id));
+  const mergeRoles = (stored: Experience[] = [], seed: Experience[]) => {
+    const out = stored.map((e) => {
+      const d = seed.find((x) => x.role === e.role);
+      return d && OLD_SEED_PERIODS.has(e.period) ? { ...e, org: d.org, period: d.period, points: d.points } : e;
+    });
+    for (const d of seed) if (!out.some((e) => e.role === d.role)) out.push(d);
+    return out;
+  };
+  return {
+    ...c,
+    seedVersion: SEED_VERSION,
+    projects: [...newProjects, ...c.projects],
+    experience: mergeRoles(c.experience, defaultContent.experience),
+    leadership: mergeRoles(c.leadership, defaultContent.leadership),
+  };
+}
+
 export async function getContent(): Promise<SiteContent> {
   const { data } = await readDoc<SiteContent>(CONTENT, defaultContent);
-  const merged = { ...defaultContent, ...data };
+  const merged = migrate({ ...defaultContent, ...data, seedVersion: data.seedVersion ?? 1 });
   // Fill in live links added to the defaults after content was first saved from /admin.
   const defaultsById = new Map(defaultContent.projects.map((p) => [p.id, p]));
   merged.projects = merged.projects.map((p) => ({
@@ -89,7 +116,7 @@ export async function getContent(): Promise<SiteContent> {
 }
 
 export function updateContent(fn: (c: SiteContent) => SiteContent) {
-  return update<SiteContent>(CONTENT, defaultContent, fn);
+  return update<SiteContent>(CONTENT, defaultContent, (c) => fn(migrate({ ...defaultContent, ...c, seedVersion: c.seedVersion ?? 1 })));
 }
 
 export async function getMessages(): Promise<Message[]> {
