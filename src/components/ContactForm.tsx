@@ -20,7 +20,14 @@ export function ContactForm() {
   }
 
   return (
-    <form action={action} className="card grid gap-4 p-6 sm:p-8">
+    <form
+      action={action}
+      className="card grid gap-4 p-6 sm:p-8"
+      onFocus={(e) => {
+        const t = e.currentTarget.elements.namedItem("t") as HTMLInputElement | null;
+        if (t && !t.value) t.value = String(Date.now());
+      }}
+    >
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="field">
           <span>Name</span>
@@ -39,6 +46,7 @@ export function ContactForm() {
         <span>Message</span>
         <textarea name="message" required minLength={10} maxLength={4000} rows={5} />
       </label>
+      <input type="hidden" name="t" defaultValue="" />
       {/* honeypot */}
       <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
       {state.status === "error" && <p className="text-sm text-rose-400">{state.message}</p>}

@@ -28,6 +28,12 @@ export async function sendMessage(_prev: ContactState, form: FormData): Promise<
   // Honeypot: real people never fill the hidden "website" field.
   if (form.get("website")) return { status: "ok", message: "Thanks! Your message is on its way." };
 
+  // Bots post instantly; people take a few seconds to type a message.
+  const started = Number(form.get("t"));
+  if (Number.isFinite(started) && started > 0 && Date.now() - started < 3000) {
+    return { status: "error", message: "That was quick. Please take a moment and send it again." };
+  }
+
   const ip = (await headers()).get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
   if (rateLimited(ip)) return { status: "error", message: "Too many messages. Please try again later." };
 

@@ -2,6 +2,7 @@ import { ArrowRight, Download, Mail, MapPin } from "lucide-react";
 import { GitHubIcon, LinkedInIcon } from "@/components/BrandIcons";
 import { mediaUrl } from "@/lib/media";
 import { getPublicContent } from "@/lib/store";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { ContactForm } from "@/components/ContactForm";
 import type { Experience } from "@/lib/types";
 import { ProjectExplorer } from "@/components/ProjectExplorer";
@@ -60,12 +61,13 @@ export default async function Home() {
               {profile.name.split(" ").slice(0, 2).join(" ")}
             </span>
           </a>
-          <div className="flex gap-5 text-sm text-muted">
+          <div className="flex items-center gap-3 text-[13px] text-muted sm:gap-5 sm:text-sm">
             {nav.map(([label, href]) => (
               <a key={href} href={href} className="transition hover:text-ink">
                 {label}
               </a>
             ))}
+            <ThemeToggle />
           </div>
         </nav>
       </header>
