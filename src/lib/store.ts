@@ -114,14 +114,32 @@ function migrate(c: SiteContent): SiteContent {
     if (p.id === "runacos-elections" && p.repo?.endsWith("/runacos-vote")) next = { ...next, repo: "" };
     return next;
   });
+  // v5: match LinkedIn (titles and dates for Lightiverse, CodeAlpha, NACOS RUN and Tech Academia).
+  const LINKEDIN: { org: RegExp; patch: Partial<Experience> }[] = [
+    { org: /lightiverse/i, patch: { role: "Web Designer", period: "Nov 2024 – Present" } },
+    { org: /codealpha/i, patch: { period: "Sep 2025 – Dec 2025" } },
+    { org: /^nacos run$/i, patch: { period: "Dec 2025 – Nov 2026" } },
+    { org: /tech academia/i, patch: { period: "Mar 2026 – Nov 2026" } },
+  ];
+  const toLinkedIn = (list: Experience[]) =>
+    list.map((e) => {
+      if (/electoral/i.test(e.role)) return e;
+      const hit = LINKEDIN.find((x) => x.org.test(e.org.trim()));
+      if (!hit) return e;
+      const next = { ...e, ...hit.patch };
+      if (/codealpha/i.test(e.org) && e.points.length === 1 && /four-month/i.test(e.points[0])) {
+        next.points = defaultContent.experience.find((d) => /codealpha/i.test(d.org))!.points;
+      }
+      return next;
+    });
   return {
     ...c,
     seedVersion: SEED_VERSION,
     profile,
     skills,
     projects,
-    experience: mergeRoles(c.experience, defaultContent.experience),
-    leadership: mergeRoles(c.leadership, defaultContent.leadership),
+    experience: mergeRoles(toLinkedIn(c.experience ?? []), defaultContent.experience),
+    leadership: mergeRoles(toLinkedIn(c.leadership ?? []), defaultContent.leadership),
   };
 }
 

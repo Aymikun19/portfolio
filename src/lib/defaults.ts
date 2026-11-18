@@ -4,7 +4,7 @@ const GH = process.env.NEXT_PUBLIC_GITHUB_USERNAME || "Aymikun19";
 const repo = (name: string) => `https://github.com/${GH}/${name}`;
 
 // Seed content. Everything here can be edited from /admin once deployed.
-export const SEED_VERSION = 4;
+export const SEED_VERSION = 5;
 
 export const defaultContent: SiteContent = {
   seedVersion: SEED_VERSION,
@@ -42,16 +42,19 @@ export const defaultContent: SiteContent = {
       ],
     },
     {
-      role: "Web Developer",
+      role: "Web Designer",
       org: "Lightiverse",
-      period: "Present",
-      points: ["Build and maintain client websites, from design brief to launch."],
+      period: "Nov 2024 – Present",
+      points: ["Help design and build websites for clients, from design brief to launch."],
     },
     {
       role: "AI Intern",
       org: "CodeAlpha (Remote)",
-      period: "4 months",
-      points: ["Delivered AI/ML project tasks during a four-month remote internship."],
+      period: "Sep 2025 – Dec 2025",
+      points: [
+        "Built a multi-language translation tool in Python, migrating off a deprecated library mid-project.",
+        "Built an FAQ chatbot with Python and Streamlit; both projects are published on GitHub.",
+      ],
     },
   ],
   leadership: [
@@ -76,7 +79,7 @@ export const defaultContent: SiteContent = {
     {
       role: "ICT Director",
       org: "NACOS RUN",
-      period: "Oct 2025 – Oct 2026",
+      period: "Dec 2025 – Nov 2026",
       points: [
         "Led the association's ICT activities and digital presence.",
         "Built and ran the association's first-ever digital elections (elections.runacos.com) for the 2026/27 executive council.",
@@ -85,7 +88,7 @@ export const defaultContent: SiteContent = {
     {
       role: "Co-founder & Vice-President",
       org: "Tech Academia (NACOS RUN)",
-      period: "Mar 2026 – Oct 2026",
+      period: "Mar 2026 – Nov 2026",
       points: ["Co-founded a student tech club focused on practical, project-based learning."],
     },
   ],
