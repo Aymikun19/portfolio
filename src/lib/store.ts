@@ -91,9 +91,20 @@ function migrate(c: SiteContent): SiteContent {
     for (const d of seed) if (!out.some((e) => e.role === d.role)) out.push(d);
     return out;
   };
+  // v3: new skill groups (AI tools, Design), the alias and the updated default title.
+  const skills = [...(c.skills ?? [])];
+  for (const g of defaultContent.skills) if (!skills.some((x) => x.group.toLowerCase() === g.group.toLowerCase())) skills.splice(Math.max(0, skills.length - 1), 0, g);
+  const OLD_TITLES = new Set(["Full-Stack Developer · Data & AI"]);
+  const profile = {
+    ...c.profile,
+    alias: c.profile.alias ?? defaultContent.profile.alias,
+    title: OLD_TITLES.has(c.profile.title) ? defaultContent.profile.title : c.profile.title,
+  };
   return {
     ...c,
     seedVersion: SEED_VERSION,
+    profile,
+    skills,
     projects: [...newProjects, ...c.projects],
     experience: mergeRoles(c.experience, defaultContent.experience),
     leadership: mergeRoles(c.leadership, defaultContent.leadership),

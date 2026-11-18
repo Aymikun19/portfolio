@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(site),
   title: { default: "Olopade Oreoluwa · Full-Stack Developer", template: "%s" },
   description:
-    "Portfolio of Olopade Oreoluwa Daniel, a full-stack developer (Next.js, Supabase) and data enthusiast.",
+    "Portfolio of Olopade Oreoluwa Daniel (Senpai): full-stack developer (Next.js, Supabase), data and AI enthusiast and graphic designer.",
   openGraph: {
     title: "Olopade Oreoluwa · Full-Stack Developer",
     description: "Next.js · Supabase · Data & AI",

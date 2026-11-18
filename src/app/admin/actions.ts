@@ -161,6 +161,7 @@ export async function saveProfile(form: FormData) {
     ...c,
     profile: {
       name: s("name"),
+      alias: s("alias"),
       title: s("title"),
       tagline: s("tagline"),
       about: s("about"),

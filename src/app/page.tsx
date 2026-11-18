@@ -30,6 +30,7 @@ export default async function Home() {
     "@context": "https://schema.org",
     "@type": "Person",
     name: profile.name,
+    alternateName: profile.alias || undefined,
     jobTitle: profile.title,
     email: `mailto:${profile.email}`,
     address: { "@type": "PostalAddress", addressCountry: profile.location },
@@ -77,10 +78,11 @@ export default async function Home() {
             <div className="min-w-0">
               <p className="eyebrow">{profile.availability}</p>
               <h1 className="mt-4 max-w-3xl text-4xl font-semibold leading-[1.1] tracking-tight text-balance sm:text-5xl lg:text-6xl">
-                Hi, I&apos;m {profile.name.split(" ")[1] ?? profile.name}.{" "}
-                <span className="text-muted">
-              {profile.title.replace(/-/g, "\u2011")}.
-            </span>
+                Hi, I&apos;m {profile.name.split(" ")[1] ?? profile.name}
+                {profile.alias ? <>, aka <span className="text-accent">{profile.alias}</span></> : null}.{" "}
+                <span className="mt-3 block text-2xl leading-snug text-muted sm:text-3xl lg:text-4xl">
+                  {profile.title.replace(/-/g, "\u2011")}
+                </span>
               </h1>
               <p className="mt-6 max-w-2xl text-lg text-muted">
                 {profile.tagline}

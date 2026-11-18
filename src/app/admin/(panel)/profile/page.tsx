@@ -33,6 +33,7 @@ export default async function ProfileAdmin({ searchParams }: { searchParams: Pro
           <ImageInput name="photo" label="Profile photo" current={mediaUrl(profile.photo)} shape="round" />
           <div className="grid gap-4 sm:grid-cols-2">
             {field("name", "Full name")}
+            {field("alias", "Also known as (nickname)")}
             {field("title", "Title")}
             {field("location", "Location")}
             {field("availability", "Availability line")}

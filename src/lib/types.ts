@@ -1,5 +1,7 @@
 export type Profile = {
   name: string;
+  /** Nickname shown next to the name, e.g. "Senpai". */
+  alias?: string;
   title: string;
   tagline: string;
   about: string;

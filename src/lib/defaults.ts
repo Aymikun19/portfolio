@@ -4,13 +4,14 @@ const GH = process.env.NEXT_PUBLIC_GITHUB_USERNAME || "Aymikun19";
 const repo = (name: string) => `https://github.com/${GH}/${name}`;
 
 // Seed content. Everything here can be edited from /admin once deployed.
-export const SEED_VERSION = 2;
+export const SEED_VERSION = 3;
 
 export const defaultContent: SiteContent = {
   seedVersion: SEED_VERSION,
   profile: {
     name: "Olopade Oreoluwa Daniel",
-    title: "Full-Stack Developer · Data & AI",
+    alias: "Senpai",
+    title: "Full-Stack Developer · Data & AI · Graphic Designer",
     tagline:
       "I build fast, data-driven web apps with Next.js and Supabase, and I'm digging deep into data science.",
     about:
@@ -27,6 +28,8 @@ export const defaultContent: SiteContent = {
     { group: "Frontend", items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "HTML & CSS"] },
     { group: "Backend & Data", items: ["Supabase", "PostgreSQL", "SQL", "REST APIs", "MongoDB"] },
     { group: "Data & ML", items: ["Python", "pandas", "scikit-learn", "Spark MLlib", "Streamlit"] },
+    { group: "AI tools", items: ["Claude", "ChatGPT", "Gemini", "Nano Banana", "Claude Code", "GitHub Copilot", "Perplexity"] },
+    { group: "Design", items: ["Graphic design", "Canva", "Claude Design", "Flyers & social posts", "Brand assets"] },
     { group: "Tools", items: ["Git & GitHub", "Vercel", "Resend"] },
   ],
   experience: [
