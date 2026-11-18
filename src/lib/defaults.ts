@@ -4,7 +4,7 @@ const GH = process.env.NEXT_PUBLIC_GITHUB_USERNAME || "Aymikun19";
 const repo = (name: string) => `https://github.com/${GH}/${name}`;
 
 // Seed content. Everything here can be edited from /admin once deployed.
-export const SEED_VERSION = 3;
+export const SEED_VERSION = 4;
 
 export const defaultContent: SiteContent = {
   seedVersion: SEED_VERSION,
@@ -97,7 +97,7 @@ export const defaultContent: SiteContent = {
         "The first-ever digital elections for my faculty's student association (RUNACOS), used to elect the 2026/27 executive council. Fresh students sign in with their matric or JAMB number, continuing students verify with a one-time code sent to their school email, and organisers run the election from an admin console.",
       tech: ["Next.js", "Vercel"],
       category: "fullstack",
-      repo: repo("runacos-vote"),
+      repo: "",
       live: "https://elections.runacos.com",
       image: "/projects/shots/runacos-elections.webp",
       featured: true,

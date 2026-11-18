@@ -100,12 +100,26 @@ function migrate(c: SiteContent): SiteContent {
     alias: c.profile.alias ?? defaultContent.profile.alias,
     title: OLD_TITLES.has(c.profile.title) ? defaultContent.profile.title : c.profile.title,
   };
+  // v4: refresh built-in project text that still matches an older default, and drop a link to an empty repo.
+  const OLD_TEXT: Record<string, string> = {
+    "study-rooms": "Realtime study rooms with live chat, shared Pomodoro timers and presence indicators showing who is online.",
+    "campus-market": "A student marketplace for buying and selling within campus, with listings, image uploads, search, filters and WhatsApp contact links.",
+  };
+  const seedById = new Map(defaultContent.projects.map((p) => [p.id, p]));
+  const projects = [...newProjects, ...c.projects].map((p) => {
+    const d = seedById.get(p.id);
+    if (!d) return p;
+    let next = p;
+    if (OLD_TEXT[p.id] && p.description === OLD_TEXT[p.id]) next = { ...next, description: d.description, tech: d.tech, highlights: d.highlights, featured: d.featured };
+    if (p.id === "runacos-elections" && p.repo?.endsWith("/runacos-vote")) next = { ...next, repo: "" };
+    return next;
+  });
   return {
     ...c,
     seedVersion: SEED_VERSION,
     profile,
     skills,
-    projects: [...newProjects, ...c.projects],
+    projects,
     experience: mergeRoles(c.experience, defaultContent.experience),
     leadership: mergeRoles(c.leadership, defaultContent.leadership),
   };
